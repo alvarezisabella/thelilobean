@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@400;500&display=swap');
+
+/* ============================================================
+   THE LILO BEAN — DESIGN TOKENS
+   ============================================================ */
+:root {
+  /* --- Color palette --- */
+  --lb-white:        #ffffff;
+  --lb-cream-page:   #fffdfa;
+  --lb-blush:        #f5e6d6;   /* welcome card background */
+  --lb-coral:        #f2929b;   /* primary button */
+  --lb-coral-hover:  #ee7d88;
+  --lb-cream-text:   #f7f2cd;   /* pale headline text over photo */
+  --lb-brown:        #8a5a3b;   /* body copy on blush card */
+  --lb-brown-dark:   #7a4a2d;   /* headings on blush card */
+  --lb-ink:          #1c1c1c;   /* logo + nav text */
+  --lb-ink-soft:     #3a3a3a;
+  --lb-divider:      #e7e2d8;
+
+  /* --- Type --- */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'EB Garamond', Georgia, serif;
+  --font-nav:     'Jost', Helvetica, Arial, sans-serif;
+
+  /* --- Spacing / shape --- */
+  --radius-card: 28px;
+  --radius-pill: 999px;
+  --shadow-card: 0 10px 30px rgba(120, 90, 60, 0.08);
+  --shadow-btn:  0 8px 20px rgba(242, 146, 155, 0.45);
+  --container-w: 1200px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--lb-cream-page);
+  color: var(--lb-ink-soft);
+  font-family: var(--font-body);
+}
+
+.lb-page { max-width: var(--container-w); margin: 0 auto; }
+
+/* ============================================================
+   1. HEADER / NAV
+   ============================================================ */
+.lb-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 40px;
+  background: var(--lb-white);
+}
+
+.lb-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.lb-logo svg { width: 46px; height: 46px; flex-shrink: 0; }
+
+.lb-logo-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--lb-ink);
+}
+.lb-logo-main { font-size: 20px; letter-spacing: 2px; display: block; }
+.lb-logo-sub  { font-size: 10px; letter-spacing: 4px; display: block; margin-top: 2px; color: var(--lb-ink-soft); font-family: var(--font-nav); }
+
+.lb-nav {
+  font-family: var(--font-nav);
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: var(--lb-ink);
+  text-transform: uppercase;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+.lb-nav:hover { border-color: var(--lb-ink); }
+
+/* ============================================================
+   2. BUTTON — pill CTA (e.g. "Order Now")
+   ============================================================ */
+.lb-btn {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 17px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--lb-cream-text);
+  background: var(--lb-coral);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 16px 42px;
+  cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+.lb-btn:hover {
+  background: var(--lb-coral-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(242, 146, 155, 0.55);
+}
+.lb-btn:active { transform: translateY(0); }
+.lb-btn:focus-visible { outline: 3px solid var(--lb-brown-dark); outline-offset: 3px; }
+
+.lb-btn--outline {
+  background: transparent;
+  color: var(--lb-coral);
+  border: 2px solid var(--lb-coral);
+  box-shadow: none;
+}
+.lb-btn--outline:hover { background: var(--lb-coral); color: var(--lb-cream-text); }
+
+/* ============================================================
+   3. HERO
+   ============================================================ */
+.lb-hero {
+  position: relative;
+  min-height: 640px;
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+.lb-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20,15,10,0.35) 0%, rgba(20,15,10,0.15) 45%, rgba(20,15,10,0.4) 100%);
+}
+.lb-hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 0 60px;
+  max-width: 760px;
+}
+.lb-hero-heading {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(38px, 5.5vw, 64px);
+  line-height: 1.15;
+  color: var(--lb-cream-text);
+  text-transform: uppercase;
+  margin: 0 0 36px;
+  text-shadow: 0 2px 18px rgba(0,0,0,0.25);
+}
+
+/* ============================================================
+   4. WELCOME CARD (image + copy panel)
+   ============================================================ */
+.lb-card {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 40px;
+  align-items: center;
+  background: var(--lb-blush);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 32px;
+  margin: 64px 40px;
+}
+.lb-card-img {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  object-fit: cover;
+  border-radius: 20px;
+  display: block;
+}
+.lb-card-heading {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.6vw, 34px);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--lb-brown-dark);
+  margin: 0 0 22px;
+}
+.lb-card-body p {
+  font-family: var(--font-body);
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--lb-brown);
+  margin: 0 0 20px;
+}
+.lb-card-body p:last-child { margin-bottom: 0; }
+
+@media (max-width: 760px) {
+  .lb-card { grid-template-columns: 1fr; margin: 40px 20px; }
+  .lb-card-img { min-height: 260px; }
+}
+
+/* ============================================================
+   5. FOOTER
+   ============================================================ */
+.lb-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 40px 48px;
+  border-top: 1px solid var(--lb-divider);
+  margin-top: 20px;
+}
+.lb-footer-label {
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 1px;
+  color: var(--lb-ink);
+}
+.lb-social {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 30% 110%, #ffdb4c 0%, #f2703b 25%, #eb3d5f 45%, #c22a8c 65%, #7b32b8 85%);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  border: none;
+}
+.lb-social:hover { transform: scale(1.08); }
+.lb-social svg { width: 17px; height: 17px; }
