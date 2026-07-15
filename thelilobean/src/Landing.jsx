@@ -4,6 +4,7 @@ import heroImage from './assets/hero-image.jpg';
 import welcomeImage from './assets/lilo-bean-coffee.jpg';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
+import { useNavigate } from 'react-router-dom';
 
 export function Hero({ imageUrl, heading, ctaLabel = 'Order Now', onCtaClick }) {
   return (
@@ -32,6 +33,7 @@ export function WelcomeCard({ imageUrl, imageAlt = '', heading, paragraphs = [] 
 
 
 export default function LiloBeanLanding() {
+  const navigate = useNavigate();
   return (
     <div className="lb-page">
       <Header />
@@ -40,7 +42,7 @@ export default function LiloBeanLanding() {
         imageUrl={heroImage}
         heading={<>Coffee that<br />feels like home</>}
         ctaLabel="Order Now"
-        onCtaClick={() => console.log('Order Now clicked')}
+        onCtaClick={() => navigate('/menu')}
       />
 
       <WelcomeCard
