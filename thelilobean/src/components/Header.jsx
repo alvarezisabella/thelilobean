@@ -1,14 +1,20 @@
 import React from 'react';
-import './LiloBean.css';
-import logo from './assets/lilo-bean-logo.svg';
+import logo from '../assets/lilo-bean-logo.svg';
+import { Link } from 'react-router-dom';
 
-export default function Header({ onMenuClick }) {
+export function Header() {
   return (
     <header className="lb-header">
       <div className="lb-logo">
-        <img src={logo} alt="The Lilo Bean Logo" width={100} height={55} className="lb-logo-img" />
+        <Link to="/">
+          <img src={logo} alt="The Lilo Bean Logo" width={100} height={55} className="lb-logo-img" />
+        </Link>
       </div>
-      <button className="lb-nav" onClick={onMenuClick}>Menu</button>
+      <nav>
+        <Link to="/menu" className="lb-nav">
+          Menu
+        </Link>
+      </nav>
     </header>
   );
 }

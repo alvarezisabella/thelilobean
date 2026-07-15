@@ -16,6 +16,8 @@
   --lb-ink:          #1c1c1c;   /* logo + nav text */
   --lb-ink-soft:     #3a3a3a;
   --lb-divider:      #e7e2d8;
+  --lb-band:         #f7ece0;   /* menu section title band */
+  --lb-yellow:       #f2efac;   /* menu item circle background */
 
   /* --- Type --- */
   --font-display: 'Playfair Display', Georgia, serif;
@@ -69,12 +71,19 @@ body {
 .lb-logo-main { font-size: 20px; letter-spacing: 2px; display: block; }
 .lb-logo-sub  { font-size: 10px; letter-spacing: 4px; display: block; margin-top: 2px; color: var(--lb-ink-soft); font-family: var(--font-nav); }
 
+.lb-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
 .lb-nav {
   font-family: var(--font-nav);
   font-size: 14px;
   letter-spacing: 3px;
   color: var(--lb-ink);
   text-transform: uppercase;
+  text-decoration: none;
   cursor: pointer;
   background: none;
   border: none;
@@ -227,3 +236,104 @@ body {
 }
 .lb-social:hover { transform: scale(1.08); }
 .lb-social svg { width: 17px; height: 17px; }
+
+/* ============================================================
+   6. MENU PAGE — section band + divider
+   ============================================================ */
+.lb-menu-section { margin-bottom: 56px; }
+
+.lb-menu-band {
+  background: var(--lb-band);
+  padding: 44px 40px 28px;
+  text-align: center;
+}
+.lb-menu-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.4vw, 42px);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--lb-brown-dark);
+  margin: 0 0 18px;
+}
+
+.lb-menu-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.lb-menu-divider::before,
+.lb-menu-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--lb-brown);
+  opacity: 0.5;
+}
+.lb-menu-divider-icon {
+  font-size: 20px;
+  color: var(--lb-brown);
+  line-height: 1;
+}
+
+/* ============================================================
+   7. MENU ITEM GRID
+   ============================================================ */
+.lb-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px 32px;
+  padding: 48px 40px 8px;
+}
+
+.lb-menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.lb-menu-item-circle {
+  width: 100%;
+  max-width: 234px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: var(--lb-yellow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 22px;
+  transition: transform 0.2s ease;
+}
+.lb-menu-item:hover .lb-menu-item-circle { transform: scale(1.03); }
+
+.lb-menu-item-img {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+}
+
+.lb-menu-item-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--lb-brown-dark);
+  line-height: 1.3;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .lb-menu-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 20px; padding: 40px 24px 8px; }
+}
+@media (max-width: 560px) {
+  .lb-menu-grid { grid-template-columns: repeat(1, 1fr); }
+  .lb-menu-band { padding: 36px 20px 24px; }
+}

@@ -1,4 +1,4 @@
-export default function Footer({ instagramUrl = '#' }) {
+export function Footer({ instagramUrl = '#' }) {
   return (
     <footer className="lb-footer">
       <span className="lb-footer-label">Follow us</span>
