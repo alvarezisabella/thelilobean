@@ -539,3 +539,55 @@ body {
 @media (max-width: 640px) {
   .lb-customize-grid { grid-template-columns: 1fr; padding: 32px 24px 0; }
 }
+
+/* ============================================================
+   10. INLINE STEPPER BOX — same footprint as .lb-select,
+   used for "Add Shot" / "2 Shots" in place of a dropdown.
+   ============================================================ */
+.lb-shot-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--lb-brown-dark);
+  background: var(--lb-white);
+  border: 1.5px solid var(--lb-coral);
+  border-radius: 12px;
+  padding: 9px 12px 9px 18px;
+}
+.lb-shot-label { white-space: nowrap; }
+.lb-shot-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.lb-shot-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid var(--lb-coral);
+  background: var(--lb-white);
+  color: var(--lb-coral);
+  font-size: 15px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.lb-shot-btn:hover:not(:disabled) { background: var(--lb-coral); color: var(--lb-white); }
+.lb-shot-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.lb-shot-count {
+  min-width: 14px;
+  text-align: center;
+  font-size: 16px;
+  color: var(--lb-brown-dark);
+  text-transform: none;
+}

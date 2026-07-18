@@ -16,7 +16,6 @@ export const drinks = {
     imageUrl: strawberryMatchaLatteImage,
     sizes: [
       { label: '16oz', imageUrl: strawberryMatchaLatteImage },
-      { label: '20oz', imageUrl: strawberryMatchaLatteImage },
     ],
     category: 'Matcha',
     included: ['Whole Milk', 'Matcha Powder', 'Agave', 'Strawberry Puree'],
@@ -26,7 +25,6 @@ export const drinks = {
     imageUrl: strawberryMatchaLatteImage,
     sizes: [
       { label: '16oz', imageUrl: strawberryMatchaLatteImage },
-      { label: '20oz', imageUrl: strawberryMatchaLatteImage },
     ],
     category: 'Matcha',
     included: ['Whole Milk', 'Matcha Powder', 'Agave'],
