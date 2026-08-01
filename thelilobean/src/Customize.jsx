@@ -3,7 +3,7 @@ import './LiloBean.css';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { customizeCategories } from './customizeCategories.js';
-import { InlineStepper } from './addShots';
+import { InlineStepper } from './addShots.jsx';
 
 /* ============================================================
    1. CATEGORY DROPDOWN — heading + divider + <select>
@@ -41,20 +41,33 @@ export function CategoryDropdown({ label, options, value, onChange }) {
 export default function CustomizePage({
   name,
   imageUrl,
+  slug,
+  size,
+  category,
   categories = customizeCategories,
   maxShots = 4,
+  initialSelections,
+  initialShots,
   onConfirm,
 }) {
   // "Espresso" is handled separately as a +/- stepper, not a dropdown
   const dropdownCategories = categories.filter((c) => c.label !== 'Espresso');
 
   const [selections, setSelections] = useState(
-    () => Object.fromEntries(dropdownCategories.map((c) => [c.label, c.options[0]]))
+    () =>
+      initialSelections ??
+      Object.fromEntries(dropdownCategories.map((c) => [c.label, c.options[0]]))
   );
-  const [shots, setShots] = useState(() => (categories.find((c) => c.label === 'Espresso') ? 2 : 0));
+  const [shots, setShots] = useState(
+    () => initialShots ?? (category === 'Espresso' ? 2 : 0)
+  );
 
   const updateSelection = (label, value) =>
     setSelections((prev) => ({ ...prev, [label]: value }));
+
+  const handleAddToOrder = () => {
+    onConfirm?.({ slug, name, imageUrl, size, selections, shots });
+  };
 
   return (
     <div className="lb-page">
@@ -79,7 +92,7 @@ export default function CustomizePage({
             onChange={setShots}
           />
         </div>
-        
+
         {dropdownCategories.map((cat) => (
           <CategoryDropdown
             key={cat.label}
@@ -92,7 +105,7 @@ export default function CustomizePage({
       </div>
 
       <div className="lb-drink-cta">
-        <button className="lb-btn" onClick={() => onConfirm?.({ ...selections, shots })}>
+        <button className="lb-btn" onClick={handleAddToOrder}>
           Add to Order
         </button>
       </div>

@@ -1,7 +1,7 @@
 export const customizeCategories = [
   { label: 'Milk', options: ['Whole Milk', 'Oat Milk', 'Almond Milk'] },
-  { label: 'Sweetness', options: ['No Sugar', 'Less Sweet', 'Regular Sweet', 'Extra Sweet'] },
-  { label: 'Cold Foam', options: ['Cold Foam', 'Cherry Cold Foam'] },
-  { label: 'Toppings', options: ['Cinnamon', 'Caramel Drizzle', 'Cookie Crumble', 'Cereal Topping'] },
-  { label: 'Ice', options: ['No Ice', 'Less Ice', 'Regular Ice', 'Extra Ice'] }
+  { label: 'Sweetness', options: ['Regular Sweet', 'Less Sweet', 'Extra Sweet', 'No Sugar'] },
+  { label: 'Cold Foam', options: ['No Cold Foam', 'Cold Foam', 'Cherry Cold Foam'] },
+  { label: 'Toppings', options: ['No Topping', 'Cinnamon', 'Caramel Drizzle', 'Cookie Crumble', 'Cereal Topping'] },
+  { label: 'Ice', options: ['Regular Ice', 'Less Ice', 'Extra Ice','No Ice'] }
 ];

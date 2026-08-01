@@ -591,3 +591,189 @@ body {
   color: var(--lb-brown-dark);
   text-transform: none;
 }
+
+/* ============================================================
+   12. CHECKOUT PAGE — cart review
+   ============================================================ */
+.lb-checkout-band {
+  background: var(--lb-band);
+  padding: 44px 60px;
+}
+.lb-checkout-title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.6vw, 44px);
+  color: var(--lb-brown-dark);
+  text-transform: uppercase;
+  margin: 0;
+}
+ 
+.lb-cart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 48px 60px;
+}
+.lb-cart-empty {
+  font-family: var(--font-body);
+  font-size: 18px;
+  color: var(--lb-brown);
+  text-align: center;
+  padding: 20px 0;
+}
+ 
+.lb-cart-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: var(--lb-blush);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+.lb-cart-card-main {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  flex: 1;
+  min-width: 0;
+}
+.lb-cart-card-circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--lb-yellow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.lb-cart-card-img { width: 78%; height: 78%; object-fit: contain; }
+.lb-cart-card-info { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.lb-cart-card-name {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.4vw, 30px);
+  text-transform: uppercase;
+  color: var(--lb-brown-dark);
+  line-height: 1.25;
+}
+.lb-cart-card-desc {
+  font-family: var(--font-body);
+  font-size: 17px;
+  color: var(--lb-brown);
+}
+ 
+.lb-cart-card-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.lb-qty-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--lb-ink);
+  background: var(--lb-white);
+  border-radius: 6px;
+  font-size: 16px;
+  color: var(--lb-ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+.lb-qty-btn:hover { background: var(--lb-band); }
+.lb-qty-value {
+  min-width: 40px;
+  height: 30px;
+  border: 1px solid var(--lb-ink);
+  border-radius: 6px;
+  background: var(--lb-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 17px;
+  color: var(--lb-ink);
+}
+.lb-trash-btn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: none;
+  color: var(--lb-ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+}
+.lb-trash-btn:hover { color: var(--lb-coral); }
+.lb-trash-btn svg { width: 18px; height: 18px; }
+ 
+@media (max-width: 640px) {
+  .lb-checkout-band, .lb-cart-list { padding-left: 24px; padding-right: 24px; }
+  .lb-cart-card { flex-direction: column; align-items: flex-start; }
+  .lb-cart-card-controls { align-self: flex-end; }
+}
+ 
+/* ============================================================
+   13. PAYMENT METHOD PAGE
+   ============================================================ */
+.lb-payment-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 56px 40px 80px;
+}
+.lb-payment-card {
+  width: 100%;
+  max-width: 620px;
+  background: var(--lb-band);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 56px 48px;
+  text-align: center;
+}
+.lb-payment-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.25;
+  color: var(--lb-brown-dark);
+  text-transform: uppercase;
+  margin: 0 0 48px;
+}
+.lb-payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.lb-payment-btn {
+  font-family: var(--font-display);
+  font-size: 26px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--lb-brown-dark);
+  background: var(--lb-white);
+  border: 2px solid var(--lb-coral);
+  border-radius: 16px;
+  padding: 20px;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+.lb-payment-btn:hover { background: #fff5f2; transform: translateY(-1px); }
+.lb-payment-btn:active { transform: translateY(0); }
+.lb-payment-btn.is-selected { background: var(--lb-coral); color: var(--lb-white); }
+ 
+.lb-confirmation-text {
+  font-family: var(--font-body);
+  font-size: 19px;
+  color: var(--lb-brown);
+  margin: 0;
+}
