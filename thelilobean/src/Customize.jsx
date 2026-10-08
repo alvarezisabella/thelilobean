@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import './LiloBean.css';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
-import { customizeCategories } from './customizeCategories.js';
-import { InlineStepper } from './addShots.jsx';
+import { InlineStepper } from './addShots';
 
 /* ============================================================
    1. CATEGORY DROPDOWN — heading + divider + <select>
@@ -44,7 +43,7 @@ export default function CustomizePage({
   slug,
   size,
   category,
-  categories = customizeCategories,
+  categories,
   maxShots = 4,
   initialSelections,
   initialShots,
@@ -79,6 +78,16 @@ export default function CustomizePage({
       </section>
 
       <div className="lb-customize-grid">
+        {dropdownCategories.map((cat) => (
+          <CategoryDropdown
+            key={cat.label}
+            label={cat.label}
+            options={cat.options}
+            value={selections[cat.label]}
+            onChange={(value) => updateSelection(cat.label, value)}
+          />
+        ))}
+
         <div className="lb-customize-category">
           <h3 className="lb-category-heading">Espresso</h3>
           <div className="lb-detail-divider lb-detail-divider--tight">
@@ -92,16 +101,6 @@ export default function CustomizePage({
             onChange={setShots}
           />
         </div>
-
-        {dropdownCategories.map((cat) => (
-          <CategoryDropdown
-            key={cat.label}
-            label={cat.label}
-            options={cat.options}
-            value={selections[cat.label]}
-            onChange={(value) => updateSelection(cat.label, value)}
-          />
-        ))}
       </div>
 
       <div className="lb-drink-cta">

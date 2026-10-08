@@ -3,7 +3,8 @@ import './LiloBean.css';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { Link } from 'react-router-dom';
-import { drinks, categoryOrder } from './drinksMenu';
+import { categoryOrder } from './drinks.js';
+import { useMenuData } from './MenuDataContext';
 
 /* ============================================================
    1. MENU ITEM — single drink: circular photo + name
@@ -46,7 +47,7 @@ export function MenuSection({ title, items = [] }) {
    defined by `categoryOrder`. Add a new drink in drinksData.js
    and it shows up here automatically — no need to touch this file.
    ============================================================ */
-function buildMenuData() {
+function buildMenuData(drinks) {
   return categoryOrder.map((category) => ({
     title: category,
     items: Object.entries(drinks)
@@ -63,13 +64,17 @@ function buildMenuData() {
    4. FULL MENU PAGE
    ============================================================ */
 export default function MenuPage() {
-  const menuData = buildMenuData();
+  const { drinks, loading, error } = useMenuData();
+  const menuData = buildMenuData(drinks);
 
   return (
     <div className="lb-page">
       <Header />
 
-      {menuData.map((section) => (
+      {loading && <p className="lb-cart-empty">Loading menu…</p>}
+      {error && <p className="lb-cart-empty">Couldn't load the menu. Please refresh and try again.</p>}
+
+      {!loading && !error && menuData.map((section) => (
         <MenuSection key={section.title} title={section.title} items={section.items} />
       ))}
 

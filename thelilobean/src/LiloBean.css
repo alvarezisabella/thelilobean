@@ -214,7 +214,7 @@ body {
   gap: 16px;
   padding: 32px 40px 48px;
   border-top: 1px solid var(--lb-divider);
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 .lb-footer-label {
   font-family: var(--font-display);

@@ -4,6 +4,8 @@ import './LiloBean.css';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { useCart } from './Cart';
+import flowers from './assets/flowers-background.jpg';
+import latteBackground from './assets/latte-background-sq.jpg';
 
 const PAYMENT_METHODS = ['Zelle', 'Apple Cash', 'Cash'];
 

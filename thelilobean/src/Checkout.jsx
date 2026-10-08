@@ -4,8 +4,7 @@ import './LiloBean.css';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { useCart } from './Cart';
-import { drinks } from './drinksMenu.js';
-import { customizeCategories } from './customizeCategories.js';
+import { useMenuData } from './MenuDataContext';
 
 function TrashIcon() {
   return (
@@ -33,7 +32,7 @@ function getDefaultShots(drinkCategory) {
   return drinkCategory === 'Espresso' ? 2 : 0;
 }
 
-function getCustomizationLines(item) {
+function getCustomizationLines(item, drinks, customizeCategories) {
   // Item was added straight from the drink detail page (no customize
   // step at all) — nothing to diff, so no customizations to show.
   if (!item.selections) return [];
@@ -68,7 +67,8 @@ function getCustomizationLines(item) {
    buttons so they don't trigger the edit navigation.
    ============================================================ */
 export function CartItemCard({ item, onEdit, onQuantityChange, onRemove }) {
-  const customizations = getCustomizationLines(item);
+  const { drinks, customizeCategories } = useMenuData();
+  const customizations = getCustomizationLines(item, drinks, customizeCategories);
 
   return (
     <div className="lb-cart-card">
@@ -78,9 +78,9 @@ export function CartItemCard({ item, onEdit, onQuantityChange, onRemove }) {
         </span>
         <span className="lb-cart-card-info">
           <span className="lb-cart-card-name">{item.name}</span>
-          {item.size && <span className="lb-cart-card-desc">{item.size}</span>}
+          {item.size && <span className="lb-cart-card-size">{item.size}</span>}
           {customizations.length > 0 && (
-            <span className="lb-cart-card-desc">{customizations.join(', ')}</span>
+            <span className="lb-cart-card-customizations">{customizations.join(', ')}</span>
           )}
         </span>
       </button>
