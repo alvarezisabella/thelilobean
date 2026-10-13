@@ -1,4 +1,3 @@
-// src/lib/orders.js
 import { supabase } from './supabaseClient';
 
 /**

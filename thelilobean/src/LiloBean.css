@@ -52,6 +52,8 @@ body {
   justify-content: space-between;
   padding: 22px 40px;
   background: var(--lb-white);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .lb-logo {
@@ -678,37 +680,39 @@ body {
 .lb-qty-btn {
   width: 30px;
   height: 30px;
-  border: 1px solid var(--lb-ink);
-  background: var(--lb-white);
+  border: 1px solid var(--lb-blush);
+  background: var(--lb-cream-page);
   border-radius: 6px;
   font-size: 16px;
-  color: var(--lb-ink);
+  color: var(--lb-brown-dark);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background 0.15s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 .lb-qty-btn:hover { background: var(--lb-band); }
 .lb-qty-value {
   min-width: 40px;
   height: 30px;
-  border: 1px solid var(--lb-ink);
+  border: 1px solid var(--lb-blush);
   border-radius: 6px;
-  background: var(--lb-white);
+  background: var(--lb-cream-page);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-body);
   font-size: 17px;
-  color: var(--lb-ink);
+  color: var(--lb-brown-dark);
 }
 .lb-trash-btn {
   width: 30px;
   height: 30px;
   border: none;
   background: none;
-  color: var(--lb-ink);
+  color: var(--lb-brown-dark);
   cursor: pointer;
   display: flex;
   align-items: center;
