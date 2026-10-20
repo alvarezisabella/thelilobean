@@ -60,6 +60,17 @@ function getCustomizationLines(item, drinks, customizeCategories) {
   return lines;
 }
 
+function formatPrice(amount) {
+  return `$${amount.toFixed(2)}`;
+}
+
+// Price of one of this item, looked up from the menu by slug + size label
+function getUnitPrice(item, drinks) {
+  const sizes = drinks[item.slug]?.sizes ?? [];
+  const match = sizes.find((s) => s.label === item.size);
+  return match?.price ?? null;
+}
+
 /* ============================================================
    CART ITEM CARD
    Click the photo/name area to go back and edit this item's
@@ -69,6 +80,7 @@ function getCustomizationLines(item, drinks, customizeCategories) {
 export function CartItemCard({ item, onEdit, onQuantityChange, onRemove }) {
   const { drinks, customizeCategories } = useMenuData();
   const customizations = getCustomizationLines(item, drinks, customizeCategories);
+  const unitPrice = getUnitPrice(item, drinks);
 
   return (
     <div className="lb-cart-card">
@@ -81,6 +93,14 @@ export function CartItemCard({ item, onEdit, onQuantityChange, onRemove }) {
           {item.size && <span className="lb-cart-card-size">{item.size}</span>}
           {customizations.length > 0 && (
             <span className="lb-cart-card-customizations">{customizations.join(', ')}</span>
+          )}
+          {unitPrice != null && (
+            <span className="lb-cart-card-price">
+              {formatPrice(unitPrice * item.quantity)}
+              {item.quantity > 1 && (
+                <span className="lb-cart-card-price-each"> · {formatPrice(unitPrice)} each</span>
+              )}
+            </span>
           )}
         </span>
       </button>
@@ -117,8 +137,16 @@ export function CartItemCard({ item, onEdit, onQuantityChange, onRemove }) {
    FULL CHECKOUT PAGE
    ============================================================ */
 export default function CheckoutPage() {
-  const { items, updateQuantity, removeItem } = useCart();
+  const { items, updateQuantity, removeItem, loaded } = useCart();
+  const { drinks } = useMenuData();
   const navigate = useNavigate();
+
+  // Only show a total when every item has a known price, so it's never wrong
+  const unitPrices = items.map((item) => getUnitPrice(item, drinks));
+  const total =
+    items.length > 0 && unitPrices.every((p) => p != null)
+      ? items.reduce((sum, item, i) => sum + unitPrices[i] * item.quantity, 0)
+      : null;
 
   return (
     <div className="lb-page">
@@ -129,7 +157,8 @@ export default function CheckoutPage() {
       </section>
 
       <div className="lb-cart-list">
-        {items.length === 0 && <p className="lb-cart-empty">Your cart is empty.</p>}
+        {!loaded && <p className="lb-cart-empty">Loading your cart…</p>}
+        {loaded && items.length === 0 && <p className="lb-cart-empty">Your cart is empty.</p>}
 
         {items.map((item) => (
           <CartItemCard
@@ -141,6 +170,14 @@ export default function CheckoutPage() {
           />
         ))}
       </div>
+
+      {total != null && (
+        <div className="lb-cart-total">
+          <span className="lb-cart-total-label">Total</span>
+          <span className="lb-cart-total-leader" aria-hidden="true" />
+          <span className="lb-cart-total-amount">{formatPrice(total)}</span>
+        </div>
+      )}
 
       {items.length > 0 && (
         <div className="lb-drink-cta">

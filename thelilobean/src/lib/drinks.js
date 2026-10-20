@@ -1,14 +1,19 @@
-import { supabase } from './lib/supabaseClient';
+import { supabase } from './supabaseClient';
+
 
 export const categoryOrder = ['Espresso', 'Matcha'];
 
-
+/**
+ * Loads all available drinks and returns them in the same shape the
+ * old drinksMenu.js exported:
+ *   { 'spanish-latte': { name, imageUrl, category, sizes: [{label, imageUrl}], included: [...] }, ... }
+ */
 export async function fetchDrinks() {
   const { data, error } = await supabase
     .from('drinks')
     .select(`
       slug, name, category, image_url, sort_order,
-      drink_sizes ( label, cup_image_url, sort_order ),
+      drink_sizes ( label, cup_image_url, price, sort_order ),
       drink_ingredients ( ingredient, sort_order )
     `)
     .eq('is_available', true)
@@ -27,7 +32,11 @@ export async function fetchDrinks() {
         imageUrl: d.image_url,
         sizes: [...d.drink_sizes]
           .sort(bySortOrder)
-          .map((s) => ({ label: s.label, imageUrl: s.cup_image_url })),
+          .map((s) => ({
+            label: s.label,
+            imageUrl: s.cup_image_url,
+            price: s.price == null ? null : Number(s.price),
+          })),
         included: [...d.drink_ingredients]
           .sort(bySortOrder)
           .map((i) => i.ingredient),
@@ -36,6 +45,13 @@ export async function fetchDrinks() {
   );
 }
 
+/**
+ * Loads the customization dropdowns and returns them in the same shape
+ * the old customizeCategories.js exported:
+ *   [{ label: 'Milk', options: ['Whole Milk', 'Oat Milk', ...] }, ...]
+ * The first option in each list (sort_order 1) is treated as the default,
+ * which is what CustomizePage and CheckoutPage already assume.
+ */
 export async function fetchCustomizeCategories() {
   const { data, error } = await supabase
     .from('customize_categories')

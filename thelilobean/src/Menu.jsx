@@ -3,7 +3,7 @@ import './LiloBean.css';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { Link } from 'react-router-dom';
-import { categoryOrder } from './drinks.js';
+import { categoryOrder } from './lib/drinks.js';
 import { useMenuData } from './MenuDataContext';
 
 /* ============================================================

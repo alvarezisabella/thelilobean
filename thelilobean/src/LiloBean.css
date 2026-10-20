@@ -318,10 +318,9 @@ body {
 .lb-menu-item:hover .lb-menu-item-circle { transform: scale(1.03); }
 
 .lb-menu-item-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  margin-bottom: 20px;
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
 }
 
 .lb-menu-item-name {
@@ -354,8 +353,8 @@ body {
   padding: 56px 60px;
 }
 .lb-drink-hero-img {
-  width: 260px;
-  height: 260px;
+  width: 15%;
+  height: 15%;
   object-fit: cover;
   flex-shrink: 0;
 }
@@ -430,7 +429,18 @@ body {
   justify-content: center;
   transition: background 0.2s ease, transform 0.2s ease;
 }
-.lb-size-swatch img { width: 125px; height: auto; margin-bottom: 8px; }
+.lb-size-swatch img { width: 90%; height: 90%; object-fit: contain; display: block; flex-shrink: 0; }
+
+
+.lb-cart-card-img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+}
+
+
 .lb-size-label {
   font-family: var(--font-body);
   font-size: 20px;
@@ -656,7 +666,13 @@ body {
   flex-shrink: 0;
   overflow: hidden;
 }
-.lb-cart-card-img { width: 78%; height: 78%; object-fit: contain; }
+.lb-cart-card-img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+}
 .lb-cart-card-info { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .lb-cart-card-name {
   font-family: var(--font-display);
@@ -726,6 +742,61 @@ body {
   .lb-checkout-band, .lb-cart-list { padding-left: 24px; padding-right: 24px; }
   .lb-cart-card { flex-direction: column; align-items: flex-start; }
   .lb-cart-card-controls { align-self: flex-end; }
+}
+
+.lb-cart-card-customizations {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-style: italic;
+  color: var(--lb-brown);
+  opacity: 0.85;
+}
+.lb-cart-card-size {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--lb-brown-dark);
+}
+.lb-cart-card-price {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--lb-brown-dark);
+}
+.lb-cart-card-price-each {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--lb-brown);
+}
+.lb-cart-total {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 0 60px;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--lb-brown-dark);
+}
+/* the dotted line between "Total" and the amount */
+.lb-cart-total-leader {
+  flex: 1;
+  height: 0;
+  margin-bottom: 0.3em;
+  border-bottom: 2px dotted var(--lb-brown);
+  opacity: 0.4;
+}
+/* optional small print under the total */
+.lb-cart-total-note {
+  padding: 16px 60px 0;
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--lb-brown);
+}
+@media (max-width: 640px) {
+  .lb-cart-total { padding: 0 24px; }
 }
  
 /* ============================================================

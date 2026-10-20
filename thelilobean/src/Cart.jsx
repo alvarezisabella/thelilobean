@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import { supabase } from './lib/supabaseClient';
 
 const CartContext = createContext(null);
 
@@ -14,23 +15,76 @@ function getItemKey(item) {
   });
 }
 
-/* ============================================================
-   CART PROVIDER
-   Wrap your <Routes> (or the whole app) in this once, in
-   main.jsx or App.jsx, so every page can read/update the cart.
-   ============================================================ */
 export function CartProvider({ children }) {
   const [items, setItems] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
 
-  // item: { slug, name, imageUrl, size, selections, shots, quantity }
-  // If an item with the same slug/size/selections/shots already exists,
-  // bump its quantity instead of adding a duplicate card.
+  const userIdRef = useRef(null);
+  const lastSavedRef = useRef('[]'); // avoids re-saving what we just loaded
+
+  // LOAD: only if the visitor already has a session
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          userIdRef.current = session.user.id;
+          const { data } = await supabase
+            .from('carts')
+            .select('items')
+            .eq('user_id', session.user.id)
+            .maybeSingle();
+          if (!cancelled && data?.items) {
+            lastSavedRef.current = JSON.stringify(data.items);
+            setItems(data.items);
+          }
+        }
+      } catch (e) {
+        console.error('Cart load failed', e);
+      } finally {
+        if (!cancelled) setLoaded(true);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  // SAVE: debounced, and only after the load has finished
+  useEffect(() => {
+    if (!loaded) return;
+    const serialized = JSON.stringify(items);
+    if (serialized === lastSavedRef.current) return;
+
+    const timer = setTimeout(async () => {
+      try {
+        let uid = userIdRef.current;
+        if (!uid) {
+          if (items.length === 0) return; // don't create a user for an empty cart
+          const { data, error } = await supabase.auth.signInAnonymously();
+          if (error) throw error;
+          uid = data.user.id;
+          userIdRef.current = uid;
+        }
+        const { error } = await supabase.from('carts').upsert({
+          user_id: uid,
+          items,
+          updated_at: new Date().toISOString(),
+        });
+        if (error) throw error;
+        lastSavedRef.current = serialized;
+      } catch (e) {
+        console.error('Cart save failed', e);
+      }
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [items, loaded]);
+
   const addItem = (item) => {
     setItems((prev) => {
       const key = getItemKey(item);
       const existingIndex = prev.findIndex((i) => getItemKey(i) === key);
-
       if (existingIndex !== -1) {
         const updated = [...prev];
         updated[existingIndex] = {
@@ -39,22 +93,19 @@ export function CartProvider({ children }) {
         };
         return updated;
       }
-
       return [...prev, { id: crypto.randomUUID(), quantity: 1, ...item }];
     });
   };
 
-  const updateItem = (id, updates) => {
+  const updateItem = (id, updates) =>
     setItems((prev) => prev.map((i) => (i.id === id ? { ...i, ...updates } : i)));
-  };
 
-  const updateQuantity = (id, quantity) => {
+  const updateQuantity = (id, quantity) =>
     setItems((prev) =>
       quantity <= 0
         ? prev.filter((i) => i.id !== id)
         : prev.map((i) => (i.id === id ? { ...i, quantity } : i))
     );
-  };
 
   const removeItem = (id) => setItems((prev) => prev.filter((i) => i.id !== id));
   const clearCart = () => setItems([]);
@@ -62,14 +113,9 @@ export function CartProvider({ children }) {
   return (
     <CartContext.Provider
       value={{
-        items,
-        addItem,
-        updateItem,
-        updateQuantity,
-        removeItem,
-        clearCart,
-        paymentMethod,
-        setPaymentMethod,
+        items, loaded,
+        addItem, updateItem, updateQuantity, removeItem, clearCart,
+        paymentMethod, setPaymentMethod,
       }}
     >
       {children}

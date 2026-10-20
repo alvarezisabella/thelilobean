@@ -1,6 +1,6 @@
 // src/MenuDataContext.jsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { fetchDrinks, fetchCustomizeCategories } from './drinks';
+import { fetchDrinks, fetchCustomizeCategories } from './lib/drinks';
 
 const MenuDataContext = createContext(null);
 

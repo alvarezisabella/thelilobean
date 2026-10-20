@@ -51,22 +51,21 @@ function CustomizeRoute() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { items, addItem, updateItem } = useCart();
+  const { items, loaded, addItem, updateItem } = useCart();
   const { drinks, customizeCategories, loading, error } = useMenuData();
 
-  if (loading) return <p>Loading…</p>;
+  if (loading || !loaded) return <p>Loading…</p>;
   if (error) return <p>Couldn't load the menu. Please refresh and try again.</p>;
 
   const drink = drinks[slug];
   if (!drink) return <p>Drink not found.</p>;
 
-  // If we got here from "edit" on the checkout page, find that exact cart item
   const cartItemId = location.state?.cartItemId;
   const editingItem = cartItemId ? items.find((i) => i.id === cartItemId) : null;
 
   const handleConfirm = (order) => {
     if (editingItem) {
-      updateItem(editingItem.id, order);   // update in place, no new card
+      updateItem(editingItem.id, order);
     } else {
       addItem(order);
     }
@@ -79,8 +78,8 @@ function CustomizeRoute() {
       imageUrl={drink.imageUrl}
       slug={slug}
       category={drink.category}
-      categories={customizeCategories}
-      size={editingItem?.size ?? location.state?.size}
+      categories={drink.categories ?? customizeCategories}           // CHANGED: matches checkout's diffing
+      size={editingItem?.size ?? location.state?.size ?? drink.sizes?.[0]?.label}  // CHANGED: fallback
       initialSelections={editingItem?.selections}
       initialShots={editingItem?.shots}
       onConfirm={handleConfirm}

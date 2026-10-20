@@ -3,6 +3,7 @@ import './LiloBean.css';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { InlineStepper } from './addShots';
+import { useSearchParams } from 'react-router-dom';
 
 /* ============================================================
    1. CATEGORY DROPDOWN — heading + divider + <select>
@@ -51,18 +52,35 @@ export default function CustomizePage({
 }) {
   // "Espresso" is handled separately as a +/- stepper, not a dropdown
   const dropdownCategories = categories.filter((c) => c.label !== 'Espresso');
+  const [params, setParams] = useSearchParams();
 
-  const [selections, setSelections] = useState(
-    () =>
-      initialSelections ??
-      Object.fromEntries(dropdownCategories.map((c) => [c.label, c.options[0]]))
-  );
-  const [shots, setShots] = useState(
-    () => initialShots ?? (category === 'Espresso' ? 2 : 0)
+  const selections = Object.fromEntries(
+    dropdownCategories.map((c) => {
+      const fromUrl = params.get(`o.${c.label}`);
+      const fallback = initialSelections?.[c.label] ?? c.options[0];
+      return [c.label, fromUrl && c.options.includes(fromUrl) ? fromUrl : fallback];
+    })
   );
 
-  const updateSelection = (label, value) =>
-    setSelections((prev) => ({ ...prev, [label]: value }));
+  const shotsParam = params.get('shots');
+  const parsedShots = Number(shotsParam);
+  const shots =
+    shotsParam !== null && Number.isInteger(parsedShots) && parsedShots >= 0 && parsedShots <= maxShots
+      ? parsedShots
+      : initialShots ?? (category === 'Espresso' ? 2 : 0);
+
+  const updateParam = (key, value) =>
+    setParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        next.set(key, value);
+        return next;
+      },
+      { replace: true }
+    );
+
+  const updateSelection = (label, value) => updateParam(`o.${label}`, value);
+  const setShots = (n) => updateParam('shots', n);
 
   const handleAddToOrder = () => {
     onConfirm?.({ slug, name, imageUrl, size, selections, shots });
