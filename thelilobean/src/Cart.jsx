@@ -97,8 +97,30 @@ export function CartProvider({ children }) {
     });
   };
 
-  const updateItem = (id, updates) =>
-    setItems((prev) => prev.map((i) => (i.id === id ? { ...i, ...updates } : i)));
+  const updateItem = (id, updates) => {
+    setItems((prev) => {
+      const target = prev.find((i) => i.id === id);
+      if (!target) return prev;
+
+      const updated = { ...target, ...updates };
+      const key = getItemKey(updated);
+
+      // Different card that is now identical
+      const twin = prev.find((i) => i.id !== id && getItemKey(i) === key);
+
+      // No twin: just update the card in place
+      if (!twin) {
+        return prev.map((i) => (i.id === id ? updated : i));
+      }
+
+      // Twin found: add the twin's quantity, remove the twin
+      return prev
+        .filter((i) => i.id !== twin.id)
+        .map((i) =>
+          i.id === id ? { ...updated, quantity: updated.quantity + twin.quantity } : i
+        );
+    });
+  };
 
   const updateQuantity = (id, quantity) =>
     setItems((prev) =>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './LiloBean.css';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -164,7 +164,7 @@ export default function CheckoutPage() {
           <CartItemCard
             key={item.id}
             item={item}
-            onEdit={() => navigate(`/menu/${item.slug}/customize`, { state: { cartItemId: item.id } })}
+            onEdit={() => navigate(`/menu/${item.slug}`, { state: { cartItemId: item.id } })}
             onQuantityChange={(qty) => updateQuantity(item.id, qty)}
             onRemove={() => removeItem(item.id)}
           />
@@ -179,13 +179,16 @@ export default function CheckoutPage() {
         </div>
       )}
 
-      {items.length > 0 && (
-        <div className="lb-drink-cta">
+      <div className="lb-drink-cta lb-drink-cta--stack">
+        <Link to="/menu" className="lb-nav lb-continue-shopping">
+          Continue Shopping
+        </Link>
+        {items.length > 0 && (
           <button className="lb-btn" onClick={() => navigate('/payment')}>
-            Continue
+            Continue to Payment
           </button>
-        </div>
-      )}
+        )}
+      </div>
 
       <Footer instagramUrl="https://www.instagram.com/thelilobean" />
     </div>

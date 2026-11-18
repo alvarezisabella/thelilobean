@@ -49,10 +49,12 @@ export default function DrinkDetailPage({
   imageUrl,
   sizes = [],
   included = [],
+  initialSize,
+  isEditing = false,
   onCustomizeClick,
   onAddToOrder,
 }) {
-  const [selectedSize, setSelectedSize] = useState(sizes[0]?.label);
+  const [selectedSize, setSelectedSize] = useState(initialSize ?? sizes[0]?.label);
 
   return (
     <div className="lb-page">
@@ -83,7 +85,7 @@ export default function DrinkDetailPage({
 
       <div className="lb-drink-cta">
         <button className="lb-btn" style={{ marginRight: '8px' }} onClick={() => onAddToOrder?.(selectedSize)}>
-          Add to Order
+          {isEditing ? 'Continue' : 'Add to Order'}
         </button>
         <button className="lb-btn" onClick={() => onCustomizeClick?.(selectedSize)}>
           Customize ✨

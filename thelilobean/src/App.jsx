@@ -12,35 +12,49 @@ import OrderConfirmationPage from './OrderConfirm.jsx';
 function DrinkDetailRoute() {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const { addItem } = useCart();
+  const location = useLocation();
+  const { items, loaded, addItem, updateItem } = useCart();
   const { drinks, loading, error } = useMenuData();
 
-  if (loading) return <p>Loading…</p>;
+  if (loading || !loaded) return <p>Loading…</p>;
   if (error) return <p>Couldn't load the menu. Please refresh and try again.</p>;
 
   const drink = drinks[slug];
   if (!drink) return <p>Drink not found.</p>;
 
+  // Set when we arrive from the edit button on a checkout card
+  const cartItemId = location.state?.cartItemId;
+  const editingItem = cartItemId ? items.find((i) => i.id === cartItemId) : null;
+
   const handleAddToOrder = (selectedSize) => {
-    addItem({
-      slug,
-      name: drink.name,
-      imageUrl: drink.imageUrl,
-      size: selectedSize,
-    });
+    if (editingItem) {
+      updateItem(editingItem.id, { size: selectedSize }); // same card, no new one
+    } else {
+      addItem({
+        slug,
+        name: drink.name,
+        imageUrl: drink.imageUrl,
+        size: selectedSize,
+      });
+    }
     navigate('/checkout');
   };
 
   const handleCustomizeClick = (selectedSize) => {
-    navigate(`/menu/${slug}/customize`, { state: { size: selectedSize } });
+    navigate(`/menu/${slug}/customize`, {
+      state: { size: selectedSize, cartItemId: editingItem?.id },
+    });
   };
 
   return (
     <DrinkDetailPage
+      key={`${slug}:${editingItem?.id ?? 'new'}`}
       name={drink.name}
       imageUrl={drink.imageUrl}
       sizes={drink.sizes}
       included={drink.included}
+      initialSize={editingItem?.size}
+      isEditing={!!editingItem}
       onAddToOrder={handleAddToOrder}
       onCustomizeClick={handleCustomizeClick}
     />
