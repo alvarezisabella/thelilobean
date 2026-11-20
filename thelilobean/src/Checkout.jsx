@@ -153,7 +153,7 @@ export default function CheckoutPage() {
       <Header />
 
       <section className="lb-checkout-band">
-        <h1 className="lb-checkout-title">Everything Look Correct?</h1>
+        <h1 className="lb-checkout-title">Checkout</h1>
       </section>
 
       <div className="lb-cart-list">

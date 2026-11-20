@@ -6,6 +6,9 @@ import { Footer } from './components/Footer';
 import { useCart } from './Cart';
 import { useMenuData } from './MenuDataContext';
 import { placeOrder } from './lib/orders';
+import { WeekendDatePicker } from './components/WeekendDatePicker';
+import { TimeDial } from './components/TimeDial';
+import { TimeWheel } from './components/TimeWheel';
 
 const PAYMENT_METHODS = ['Zelle', 'Apple Cash', 'Cash'];
 
@@ -27,6 +30,8 @@ export default function PaymentPage() {
     lastName: '',
     phone: '',
     paymentMethod: '',
+    pickupDate: '',
+    pickupTime: '',
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -70,6 +75,10 @@ export default function PaymentPage() {
       setError('Please enter a 10-digit phone number.');
       return;
     }
+    if (!form.pickupDate || !form.pickupTime) {
+      setError('Please select a pickup date and time.');
+      return;
+    }
 
     setSubmitting(true);
     setError(null);
@@ -81,6 +90,8 @@ export default function PaymentPage() {
         phone: form.phone,
         paymentMethod: form.paymentMethod,
         items: items.map(withDefaults),
+        pickupDate: form.pickupDate,
+        pickupTime: form.pickupTime,
       });
       setPaymentMethod(form.paymentMethod);
       clearCart();
@@ -152,6 +163,34 @@ export default function PaymentPage() {
                 value={form.phone}
                 onChange={handleChange}
               />
+            </div>
+
+            <div className="lb-form-row">
+              <div className="lb-field">
+                <label className="lb-label" htmlFor="pickupDate">Pickup Date</label>
+                <WeekendDatePicker
+                  className="lb-input"
+                  id="pickupDate"
+                  name="pickupDate"
+                  value={form.pickupDate}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="lb-field">
+                <label className="lb-label" htmlFor="pickupTime">Pickup Time</label>
+                <TimeWheel
+                  id="pickupTime"
+                  name="pickupTime"
+                  value={form.pickupTime}
+                  onChange={handleChange}
+                />
+                {/* <TimeDial
+                  id="pickupTime"
+                  name="pickupTime"
+                  value={form.pickupTime}
+                  onChange={handleChange}
+                /> */}
+              </div>
             </div>
 
             <div className="lb-field">

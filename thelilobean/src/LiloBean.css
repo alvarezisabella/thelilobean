@@ -963,3 +963,307 @@ body {
   border-color: var(--lb-coral);
   color: var(--lb-coral);
 }
+/* ============================================================
+   16. PICKERS
+   ============================================================ */
+/* Add to LiloBean.css (or import alongside it).
+   Colors fall back to neutral values; set --lb-ink / --lb-accent / --lb-cream
+   (or edit the --pk-* lines) to match the site palette. */
+
+/* Date picker + time dial styles.
+   Paste into LiloBean.css. Uses the root --lb-* palette. */
+
+.lb-picker {
+  --pk-bg: var(--lb-cream-page);
+  --pk-surface: var(--lb-blush);
+  --pk-band: var(--lb-band);
+  --pk-text: var(--lb-brown-dark);
+  --pk-text-soft: var(--lb-brown);
+  --pk-line: var(--lb-divider);
+  --pk-accent: var(--lb-coral);
+  --pk-accent-hover: var(--lb-coral-hover);
+  --pk-on-accent: var(--lb-ink);
+  --pk-disabled: rgba(138, 90, 59, 0.35);
+  position: relative;
+}
+
+.lb-picker-trigger {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+.lb-picker-trigger.is-placeholder { opacity: 0.6; }
+
+.lb-picker-pop {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 30;
+  background: var(--pk-bg);
+  color: var(--pk-text);
+  border: 1px solid var(--pk-line);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 10px 28px rgba(122, 74, 45, 0.16);
+  font-family: inherit;
+}
+
+.lb-picker-note {
+  margin: 10px 0 0;
+  font-size: 0.8rem;
+  color: var(--pk-text-soft);
+}
+
+/* ---------- Calendar ---------- */
+.lb-cal { width: min(320px, calc(100vw - 48px)); }
+
+.lb-cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 4px;
+  background: var(--pk-band);
+  border-radius: 999px;
+}
+.lb-cal-month { font-weight: 600; color: var(--pk-text); }
+
+.lb-cal-nav {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--pk-text);
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+.lb-cal-nav:hover:not(:disabled) { background: var(--pk-surface); }
+.lb-cal-nav:disabled { opacity: 0.3; cursor: default; }
+
+.lb-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+.lb-cal-dow {
+  font-size: 0.75rem;
+  color: var(--pk-text-soft);
+  padding: 4px 0;
+}
+
+.lb-cal-day {
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--pk-disabled);
+  font: inherit;
+  cursor: default;
+}
+.lb-cal-day.is-weekend:not(:disabled) {
+  background: var(--pk-surface);
+  color: var(--pk-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+.lb-cal-day.is-weekend:not(:disabled):hover {
+  background: var(--pk-accent);
+  color: var(--pk-on-accent);
+}
+.lb-cal-day.is-selected,
+.lb-cal-day.is-selected:hover {
+  background: var(--pk-accent-hover);
+  color: var(--pk-on-accent);
+}
+
+/* ---------- Time dial ----------
+.lb-dial {
+  width: min(256px, calc(100vw - 48px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lb-dial-face {
+  position: relative;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--pk-bg) 40%, var(--pk-surface) 100%);
+  border: 1px solid var(--pk-line);
+  max-width: 100%;
+}
+
+.lb-dial-hour {
+  position: absolute;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--pk-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 2;
+}
+.lb-dial-hour:hover:not(:disabled) { background: var(--pk-band); }
+.lb-dial-hour:disabled {
+  color: var(--pk-disabled);
+  font-weight: 400;
+  opacity: 0.5;
+  cursor: default;
+}
+.lb-dial-hour.is-selected,
+.lb-dial-hour.is-selected:hover {
+  background: var(--pk-accent);
+  color: var(--pk-on-accent);
+}
+
+.lb-dial-hand {
+  position: absolute;
+  width: 2px;
+  background: var(--pk-accent-hover);
+  transform-origin: bottom center;
+  z-index: 1;
+  transition: transform 0.2s ease;
+}
+.lb-dial-pin {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pk-accent-hover);
+  z-index: 1;
+}
+.lb-dial-ampm {
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--pk-text);
+}
+
+.lb-dial-minutes {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+}
+.lb-dial-min {
+  min-width: 48px;
+  padding: 8px 0;
+  border: 1px solid var(--pk-line);
+  border-radius: 999px;
+  background: var(--pk-surface);
+  color: var(--pk-text);
+  font: inherit;
+  cursor: pointer;
+}
+.lb-dial-min:hover:not(:disabled) { background: var(--pk-band); }
+.lb-dial-min:disabled { opacity: 0.4; cursor: default; }
+.lb-dial-min.is-selected,
+.lb-dial-min.is-selected:hover {
+  background: var(--pk-accent);
+  border-color: var(--pk-accent);
+  color: var(--pk-on-accent);
+}
+
+.lb-picker-done { margin-top: 10px; width: 100%; }
+
+.lb-picker button:focus-visible {
+  outline: 2px solid var(--pk-accent-hover);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lb-dial-hand { transition: none; }
+} */
+ /* ---------- Time wheel (alarm-style) ---------- */
+.lb-wheel-pop {
+  --wheel-item-h: 40px;
+  width: min(264px, calc(100vw - 48px));
+}
+
+.lb-wheel-wrap {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  height: calc(var(--wheel-item-h) * 5);
+}
+
+/* the highlighted row in the middle */
+.lb-wheel-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--wheel-item-h) * 2);
+  height: var(--wheel-item-h);
+  background: var(--pk-surface);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.lb-wheel {
+  position: relative;
+  flex: 1;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  user-select: none;
+  cursor: grab;
+  outline: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 32%, #000 68%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 32%, #000 68%, transparent 100%);
+}
+.lb-wheel::-webkit-scrollbar { display: none; }
+.lb-wheel:active { cursor: grabbing; }
+.lb-wheel:focus-visible {
+  outline: 2px solid var(--pk-accent-hover);
+  outline-offset: -2px;
+  border-radius: 10px;
+}
+
+.lb-wheel-spacer { height: calc(var(--wheel-item-h) * 2); }
+
+.lb-wheel-item {
+  height: var(--wheel-item-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: center;
+  font-size: 1.35rem;
+  color: var(--pk-text-soft);
+  opacity: 0.6;
+  cursor: pointer;
+}
+.lb-wheel-item.is-active {
+  color: var(--pk-text);
+  font-weight: 600;
+  opacity: 1;
+}
+.lb-wheel-item.is-disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.lb-wheel-colon {
+  flex: 0 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--pk-text);
+  position: relative;
+}
+
+.lb-picker-done { margin-top: 10px; width: 100%; }
+
+.lb-picker button:focus-visible {
+  outline: 2px solid var(--pk-accent-hover);
+  outline-offset: 2px;
+}
